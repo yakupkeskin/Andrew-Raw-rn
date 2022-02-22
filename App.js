@@ -1,36 +1,55 @@
-import * as React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Home from './screens/Home';
-import Login from './screens/Login';
-import Page1 from './screens/Page1';
-import Page2 from './screens/Page2';
-import Page3 from './screens/Page3';
-import Page4 from './screens/Page4';
+//This is where our app start.
+import * as React from "react";
+import { View, Text, StyleSheet, SafeAreaView } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { useState, useEffect } from "react";
+import LoginNavigator from "./components/LoginNavigator";
+import HomeNavigator from "./components/HomeNavigator";
+import { Provider } from "react-redux"; // We use provider for the components that we want to use redux in.
+import store from "./redux/store";
 
-export default function App({navigation}) {
-  const Tab = createBottomTabNavigator();
-    return (
+
+export default function App({ navigation, route }) {
+
+  Stack = createNativeStackNavigator();
+  return (
+    <Provider store={store}> 
       <NavigationContainer>
-        <Tab.Navigator>
-          <Tab.Screen name="Home" component={Home}/>
-          <Tab.Screen name="Page1" component={Page1}/>
-          <Tab.Screen name="Page2" component={Page2}/>
-          <Tab.Screen name="Page3" component={Page3}/>
-          <Tab.Screen name="Page4" component={Page4}/>
-          <Tab.Screen name="Login" component={Login}/>
-        </Tab.Navigator>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="LoginNavigator"
+            component={LoginNavigator}
+            options={{
+              title: "Andrewitter",
+              backgroundColor: "#1DA1F2",
+              headerStyle: {
+                backgroundColor: "#1DA1F2",
+              },
+            }}
+          />
+          <Stack.Screen
+            name="HomeNavigator"
+            component={HomeNavigator}
+            options={{
+              title: "Andrewitter",
+              headerBackVisible: false,
+              headerStyle: {
+                backgroundColor: "#1DA1F2",
+              },
+            }}
+          />
+          
+        </Stack.Navigator>
       </NavigationContainer>
+    </Provider>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
